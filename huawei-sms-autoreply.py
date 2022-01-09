@@ -1,6 +1,7 @@
 import sys
 import time
 from os import environ
+from re import search
 
 from huawei_lte_api.Client import Client
 from huawei_lte_api.AuthorizedConnection import AuthorizedConnection
@@ -60,7 +61,7 @@ while True:
         if sms['SmsType'] != '7':
 
             # Check if sender is SMS_NUMBER
-            if sms['Phone'] == SMS_NUMBER:
+            if sms['Phone'] == SMS_NUMBER and search(SMS_REPLY_TEXT, sms['Content']):
                 # try to send reply sms
                 sent_sms = client.sms.send_sms(
                     phone_numbers=SMS_NUMBER,
