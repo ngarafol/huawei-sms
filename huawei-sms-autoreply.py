@@ -11,14 +11,23 @@ from huawei_lte_api.enums.sms import BoxTypeEnum, TextModeEnum
 from huawei_lte_api.enums.user import LoginStateEnum
 import huawei_lte_api.exceptions
 
-# SMS_NUMBER is sender/target number you use to send SMS for more traffic
+# SMS_SENDER is SENDER number you get message for more traffic from
+# SMS_DEST is DESTINATION number you use for more traffic
+
+# For A1 it is 13125 / 13125
+# For HT it is HR_Telekom / 13909
+
 # SMS_REPLY_TEXT is text that should be sent to SMS_NUMBER for more traffic
+
+# For A1 it is SURFAJ
+# For HT it is BRZINA
 
 try:
     HUAWEI_ROUTER_IP_ADDRESS = environ['HUAWEI_ROUTER_IP_ADDRESS']
     HUAWEI_ROUTER_ACCOUNT = environ['HUAWEI_ROUTER_ACCOUNT']
     HUAWEI_ROUTER_PASSWORD = environ['HUAWEI_ROUTER_PASSWORD']
-    SMS_NUMBER = environ['SOURCE_SMS_SENDER']
+    SMS_SENDER = environ['SMS_SENDER']
+    SMS_DEST = environ['SMS_DEST']
     SMS_REPLY_TEXT = environ['SMS_REPLY_TEXT']
     DELAY_LOOP_SECONDS = int(environ.get('DELAY_LOOP_SECONDS', "1"))
     DELAY_WAIT_SECONDS = int(environ.get('DELAY_WAIT_SECONDS', "15"))
@@ -61,10 +70,10 @@ while True:
         if sms['SmsType'] != '7':
 
             # Check if sender is SMS_NUMBER
-            if sms['Phone'] == SMS_NUMBER and search(SMS_REPLY_TEXT, sms['Content']):
+            if sms['Phone'] == SMS_SENDER and search(SMS_REPLY_TEXT, sms['Content']):
                 # try to send reply sms
                 sent_sms = client.sms.send_sms(
-                    phone_numbers=SMS_NUMBER,
+                    phone_numbers=SMS_DEST,
                     message=SMS_REPLY_TEXT,
                     )
                 # try to delete sms
