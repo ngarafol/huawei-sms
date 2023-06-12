@@ -16,11 +16,15 @@ import huawei_lte_api.exceptions
 
 # For A1 it is 13125 / 13125
 # For HT it is HR_Telekom / 13909
+# For Telemach it is TELEMACH / 13880
 
 # SMS_REPLY_TEXT is text that should be sent to SMS_NUMBER for more traffic
 
 # For A1 it is SURFAJ
 # For HT it is BRZINA
+# For Telemach it is NASTAVI
+
+# set all required environment variables listed below (environ lines)
 
 try:
     HUAWEI_ROUTER_IP_ADDRESS = environ['HUAWEI_ROUTER_IP_ADDRESS']
